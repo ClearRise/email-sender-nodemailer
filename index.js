@@ -232,16 +232,16 @@ async function sendEmailsInBatches() {
         `✅ Batch ${batchNumber} completed: ${successCount} sent successfully${failCount > 0 ? `, ${failCount} failed` : ""}`
       );
 
-      // Wait 4 hours (±30 mins) before next batch, except for the last batch
+      // Wait random hours (±30 mins) before next batch, except for the last batch
       if (batchIndex < totalBatches - 1) {
-        const baseHours = 4;
+        const baseHours = Math.random() * (4 - 2) + 2;;
         const baseMs = baseHours * 60 * 60 * 1000;
         const randomOffsetMs = (Math.random() * 60 - 30) * 60 * 1000; // -30 to +30 minutes in milliseconds
         const delayMs = baseMs + randomOffsetMs;
         const delayHours = (delayMs / (60 * 60 * 1000)).toFixed(2);
         const nextBatchTime = new Date(Date.now() + delayMs);
         console.log(
-          `\n⏳ Waiting ${delayHours} hours (randomized 4h ±30min) before next batch... (Next batch at ${nextBatchTime.toLocaleString()})`
+          `\n⏳ Waiting ${delayHours} hours (randomized 2h-4h ±30min) before next batch... (Next batch at ${nextBatchTime.toLocaleString()})`
         );
         await sleep(delayMs);
       }
